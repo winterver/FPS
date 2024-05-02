@@ -1,0 +1,25 @@
+BUG:换弹有时会被开枪打断 无法稳定复现 具体原因不明 可能与奔跑相关的蓝图有关
+BUG:无法像CS、CF那样蹲跳，以跳上普通跳跃跳不上的平台
+//BUG:全自动武器空弹匣时按住开火会以射速的频率重复触发Empty音效
+BUG:枪械骨骼上的Muzzle这个socket卡进墙里的时候line trace有异常
+
+//TODO:满弹夹+枪膛内已上膛一发 比满弹夹多出一发 （这个可能与空仓挂机有关 建议详查
+//TODO:检查一下BP_ADS_Calc，算出的数据与视频相比，X分量符号反了。
+//TODO:更改瞄准 改成toggle。然后TL_ADS要调整。
+//TODO:空弹匣自动reload
+//TODO:添加倒V形准星（战地同款）
+//TODO:觇孔与枪上的准星不平齐。与仰角有关。=>Weapon Sway搞的鬼。是其中的PitchOffset在ABP中给TransformModifyBone做参数做出来的效果。把Set PitchOffset的线断掉就可以了。
+//TODO:搞清楚TL_Walking是怎么播放的。=> 开启了自动播放而已。。
+//TODO:蹲姿时枪向外偏，改成向内偏。=>CrouchAlpha在ABP内搞的鬼。已改。
+TODO:分析procedural ADS的原理
+TODO:分析那一堆Montage
+//TODO:TL_Walking的Footstep引脚为什么只有在玩家移动的时候才会触发？=>通过SetPlayRate(Lerp(0,1.2, WalkAnimAlpha)),不移动时Lerp返回值为0，停止TL_Walking的播放。
+TODO:IK or Control Rig, 实现自适应持枪。
+TODO:改进recoil系统，使其能够回正，使瞬间开两枪比连续开两枪后座大，添加散布。
+TODO:使射速适用于半自动枪械。实现快慢机。
+TODO:枪械切换。打断reload。
+TODO:ue5里sequence player的blend方法被删除了，去提问，问被哪个方法替代了。
+TODO:Annihilator!!!
+
+OPTIONAL:现在奔跑时可以换弹 准备改成 手枪可奔跑时换弹而其他枪不能 或者 奔跑时换弹比普通换弹慢，且不同武器的奔跑换弹所需额外时间不同
+OPTIONAL:瞄准后换弹会结束瞄准，换弹玩成后也不会恢复。要不要做成会恢复的呢？这个见仁见智。
