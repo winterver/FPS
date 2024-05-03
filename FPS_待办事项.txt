@@ -1,7 +1,11 @@
 BUG:换弹有时会被开枪打断 无法稳定复现 具体原因不明 可能与奔跑相关的蓝图有关
 BUG:无法像CS、CF那样蹲跳，以跳上普通跳跃跳不上的平台
-//BUG:全自动武器空弹匣时按住开火会以射速的频率重复触发Empty音效
+//BUG:全自动武器空弹匣时按住开火会以射速的频率重复触发Empty音效=>已修
 BUG:枪械骨骼上的Muzzle这个socket卡进墙里的时候line trace有异常
+BUG:手臂在蓝图的略缩图中以及放到地图中开始游戏后会消失 原因不明
+BUG:手上的枪在地面上没有影子 之前还有的。。。
+BUG:按住shift就有奔跑的动作，即使没有按方向键。
+BUG:跳跃后空中按蹲，落地后不会蹲下。
 
 //TODO:满弹夹+枪膛内已上膛一发 比满弹夹多出一发 （这个可能与空仓挂机有关 建议详查
 //TODO:检查一下BP_ADS_Calc，算出的数据与视频相比，X分量符号反了。
@@ -10,16 +14,17 @@ BUG:枪械骨骼上的Muzzle这个socket卡进墙里的时候line trace有异常
 //TODO:添加倒V形准星（战地同款）
 //TODO:觇孔与枪上的准星不平齐。与仰角有关。=>Weapon Sway搞的鬼。是其中的PitchOffset在ABP中给TransformModifyBone做参数做出来的效果。把Set PitchOffset的线断掉就可以了。
 //TODO:搞清楚TL_Walking是怎么播放的。=> 开启了自动播放而已。。
-//TODO:蹲姿时枪向外偏，改成向内偏。=>CrouchAlpha在ABP内搞的鬼。已改。
-TODO:分析procedural ADS的原理
-TODO:分析那一堆Montage
 //TODO:TL_Walking的Footstep引脚为什么只有在玩家移动的时候才会触发？=>通过SetPlayRate(Lerp(0,1.2, WalkAnimAlpha)),不移动时Lerp返回值为0，停止TL_Walking的播放。
-TODO:IK or Control Rig, 实现自适应持枪。
+//TODO:蹲姿时枪向外偏，改成向内偏。=>CrouchAlpha在ABP内搞的鬼。已改。
+//TODO:分析procedural ADS的原理=>算出ADS Alpha和ADS Offset后，简单粗暴地直接移动手臂的根骨骼（spine_03虽然不是真正的根骨骼，但移动这个跟移动root效果是一样的）。手臂是整体移动且姿势保持不变的。所以枪是指向正前方的，没有一丁点儿的偏差。
+TODO:分析那一堆Montage
+//TODO:IK or Control Rig, 实现自适应瞄准和持枪。=>瞄准的原理：将ik_hand_gun移动到sight,然后将ik_hand_l和ik_hand_r分别移动到hand_l和hand_r。然后将ik_hand_gun移动到摄像机正前方，因为ik_hand_l和ik_hand_r为ik_hand_gun的子节点，故二者随ik_hand_gun移动且保持相对位置不变。然后用two bone ik将hand_l和hand_r分别吸附到ik_hand_l和ik_hand_r。原理就这么简单，只是数据比较难算。通过这个实现idle的上下起伏也并非难事。
 TODO:改进recoil系统，使其能够回正，使瞬间开两枪比连续开两枪后座大，添加散布。
 TODO:使射速适用于半自动枪械。实现快慢机。
+TODO:战地5那种半蹲奔跑。还有蹲和跑改成toggle
 TODO:枪械切换。打断reload。
 TODO:ue5里sequence player的blend方法被删除了，去提问，问被哪个方法替代了。
 TODO:Annihilator!!!
 
 OPTIONAL:现在奔跑时可以换弹 准备改成 手枪可奔跑时换弹而其他枪不能 或者 奔跑时换弹比普通换弹慢，且不同武器的奔跑换弹所需额外时间不同
-OPTIONAL:瞄准后换弹会结束瞄准，换弹玩成后也不会恢复。要不要做成会恢复的呢？这个见仁见智。
+OPTIONAL:瞄准后换弹会结束瞄准，换弹完成后也不会恢复。要不要做成会恢复的呢？这个见仁见智。
