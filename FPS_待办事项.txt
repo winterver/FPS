@@ -18,8 +18,8 @@ BUG:瞄准时右走枪械会抬高，左走则会降低。检查过，不是旧A
 //TODO:TL_Walking的Footstep引脚为什么只有在玩家移动的时候才会触发？=>通过SetPlayRate(Lerp(0,1.2, WalkAnimAlpha)),不移动时Lerp返回值为0，停止TL_Walking的播放。
 //TODO:蹲姿时枪向外偏，改成向内偏。=>CrouchAlpha在ABP内搞的鬼。已改。
 //TODO:分析procedural ADS的原理=>算出ADS Alpha和ADS Offset后，简单粗暴地直接移动手臂的根骨骼（spine_03虽然不是真正的根骨骼，但移动这个跟移动root效果是一样的）。手臂是整体移动且姿势保持不变的。所以枪是指向正前方的，没有一丁点儿的偏差。
+//TODO:IK or Control Rig, 实现自适应瞄准和持枪。=>瞄准的原理：将ik_hand_gun移动到sight,然后将ik_hand_l和ik_hand_r分别移动到hand_l和hand_r。（ik骨骼其实单纯就是不控制任何顶点的普通骨骼（故而不会对模型产生任何影响），只不过可以在运行时将ik骨骼绑定到其他骨骼实现IK计算。）。然后将ik_hand_gun移动到摄像机正前方，因为ik_hand_l和ik_hand_r为ik_hand_gun的子节点，故二者随ik_hand_gun移动且保持相对位置不变。然后用two bone ik将hand_l和hand_r分别吸附到ik_hand_l和ik_hand_r。原理就这么简单，只是数据比较难算。通过这个实现idle的上下起伏也并非难事。
 TODO:分析那一堆Montage
-//TODO:IK or Control Rig, 实现自适应瞄准和持枪。=>瞄准的原理：将ik_hand_gun移动到sight,然后将ik_hand_l和ik_hand_r分别移动到hand_l和hand_r。然后将ik_hand_gun移动到摄像机正前方，因为ik_hand_l和ik_hand_r为ik_hand_gun的子节点，故二者随ik_hand_gun移动且保持相对位置不变。然后用two bone ik将hand_l和hand_r分别吸附到ik_hand_l和ik_hand_r。原理就这么简单，只是数据比较难算。通过这个实现idle的上下起伏也并非难事。
 TODO:改进recoil系统，使其能够回正，使瞬间开两枪比连续开两枪后座大，添加散布。
 TODO:使射速适用于半自动枪械。实现快慢机。
 TODO:战地5那种半蹲奔跑。还有蹲和跑改成toggle
